@@ -13,9 +13,8 @@ namespace Graphics_Intro
 {
     public partial class Display : Form
     {
-        public static List<int> coords_x = new List<int>();
-        public static List<int> coords_y = new List<int>();
-        Snake Snake = new Snake(coords_x, coords_y, null, 5, 5, 533/2, 292/2, 5);
+        
+        Snake Snake = new Snake(null, 5, 5, 533/2, 292/2, 5);
         Object Object = new Object();
 
         public Display()

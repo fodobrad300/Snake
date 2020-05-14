@@ -22,24 +22,22 @@ namespace Graphics_Intro
         public List<int> coords_y = new List<int>();
         public string direction;
 
-        public Snake(List<int> coords_x, List<int> coords_y,string direction, int length, int width, int headX, int headY, int speed)
+        public Snake(string direction, int length, int width, int headX, int headY, int speed)
         {
             this.direction = direction;
             this.width = width;
             this.length = length;
             this.headX = headX;
             this.headY = headY;
-            this.coords_x = coords_x;
-            this.coords_y = coords_y;
             this.speed = speed;
 
             for (int i = 0; i < length; i++)
             {
-                this.coords_x.Add(headX - (5 * i));
+                coords_x.Add(headX - (5 * i));
             }
             for (int i = 0; i< length; i++)
             {
-                this.coords_y.Add(headY);
+                coords_y.Add(headY);
             }
         }
         public void death()
