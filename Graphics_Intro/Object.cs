@@ -13,6 +13,7 @@ namespace Graphics_Intro
         public static int pos_x;
         public static int pos_y;
         public static int radius = 5;
+        public static int decay;
         public Random generator = new Random();
 
         public Object()
@@ -22,8 +23,9 @@ namespace Graphics_Intro
         public void spawn()
         {
             //Spawn in reasonable area
-            pos_x = generator.Next(10, 520);
-            pos_y = generator.Next(10, 280);
+            pos_x = generator.Next(20, 500);
+            pos_y = generator.Next(100, 270);
+            decay = 0;
         }
     }
 }

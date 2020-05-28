@@ -13,39 +13,60 @@ namespace Graphics_Intro
 {
     public partial class Display : Form
     {
-        
         Snake Snake = new Snake(null, 5, 5, 533/2, 292/2, 5);
         Object Object = new Object();
-
+        bool grow;
+        bool die;
         public Display()
         {
             InitializeComponent();
+            scoreLbl.Text = "Score: " + "0";
+            die = Snake.death();
         }
         
         private void Display_Paint(object sender, PaintEventArgs e)
         {
-            testLbl.Text = (ClientSize.Width + ", " + ClientSize.Height);
             Graphics canvas = e.Graphics;
-            canvas.Clear(Color.White);
             Pen snake = new Pen(Color.Black, Snake.width);
             Pen objects = new Pen(Color.Red, Object.radius);
+            Pen decay = new Pen(Color.RosyBrown, Object.radius);
+            SolidBrush gameField = new SolidBrush(Color.White);
+            canvas.Clear(Color.Black);
 
-            canvas.DrawPie(objects, Object.pos_x, Object.pos_y, Object.radius, Object.radius, 0, 360);
-
-            for(int i=0; i<Snake.length-1; i++)
+            //draw rectangle for playing field
+            canvas.FillRectangle(gameField, 10, 80, ClientSize.Width - 20, ClientSize.Height - 90);
+            if(Object.decay < 100)
             {
-                canvas.DrawLine(snake, Snake.coords_x[i], Snake.coords_y[i], Snake.coords_x[i+1], Snake.coords_y[i+1]);
+                canvas.DrawPie(objects, Object.pos_x, Object.pos_y, Object.radius, Object.radius, 0, 360);
+            }
+            else if(Object.decay < 200)
+            {
+                canvas.DrawPie(decay, Object.pos_x, Object.pos_y, Object.radius, Object.radius, 0, 360);
+            }
+            else
+            {
+                Object.spawn();
+            }
+            for (int i = 0; i < Snake.length - 1; i++)
+            {
+                canvas.DrawLine(snake, Snake.coords_x[i], Snake.coords_y[i], Snake.coords_x[i + 1], Snake.coords_y[i + 1]);
             }
         }
 
         private void timer_Tick(object sender, EventArgs e)
         {
             //move snake and repaint
-            bool grow = Snake.move();
+            Object.decay++;
+            grow = Snake.move();
             if (grow)
             {
                 Snake.grow();
                 Object.spawn();
+                scoreLbl.Text = "Score: " + Snake.score;
+            }
+            else if (die)
+            {
+                scoreLbl.Text = "Score: " + Snake.score;
             }
             this.Invalidate();
         }

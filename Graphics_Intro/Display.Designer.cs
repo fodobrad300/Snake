@@ -30,29 +30,32 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.testLbl = new System.Windows.Forms.Label();
+            this.scoreLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer
             // 
             this.timer.Enabled = true;
+            this.timer.Interval = 50;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // testLbl
+            // scoreLbl
             // 
-            this.testLbl.AutoSize = true;
-            this.testLbl.Location = new System.Drawing.Point(196, 13);
-            this.testLbl.Name = "testLbl";
-            this.testLbl.Size = new System.Drawing.Size(57, 20);
-            this.testLbl.TabIndex = 0;
-            this.testLbl.Text = "testLbl";
+            this.scoreLbl.AutoSize = true;
+            this.scoreLbl.ForeColor = System.Drawing.SystemColors.Control;
+            this.scoreLbl.Location = new System.Drawing.Point(730, 9);
+            this.scoreLbl.Name = "scoreLbl";
+            this.scoreLbl.Size = new System.Drawing.Size(55, 20);
+            this.scoreLbl.TabIndex = 0;
+            this.scoreLbl.Text = "Score:";
             // 
             // Display
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(799, 450);
-            this.Controls.Add(this.testLbl);
+            this.Controls.Add(this.scoreLbl);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -68,7 +71,7 @@
         #endregion
 
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.Label testLbl;
+        private System.Windows.Forms.Label scoreLbl;
     }
 }
 
