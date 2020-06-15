@@ -17,7 +17,9 @@ namespace Graphics_Intro
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Display());
+            var menu = new Main_Menu();
+            menu.Show();
+            Application.Run();
         }
     }
 }

@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.scoreLbl = new System.Windows.Forms.Label();
+            this.startLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer
@@ -49,18 +50,30 @@
             this.scoreLbl.TabIndex = 0;
             this.scoreLbl.Text = "Score:";
             // 
+            // startLbl
+            // 
+            this.startLbl.AutoSize = true;
+            this.startLbl.BackColor = System.Drawing.Color.Transparent;
+            this.startLbl.Location = new System.Drawing.Point(318, 290);
+            this.startLbl.Name = "startLbl";
+            this.startLbl.Size = new System.Drawing.Size(122, 20);
+            this.startLbl.TabIndex = 1;
+            this.startLbl.Text = "Press D to Start";
+            // 
             // Display
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(799, 450);
+            this.Controls.Add(this.startLbl);
             this.Controls.Add(this.scoreLbl);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Display";
             this.Text = "Snake";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Display_FormClosing);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Display_Paint);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Display_KeyPress);
             this.ResumeLayout(false);
@@ -72,6 +85,7 @@
 
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Label scoreLbl;
+        private System.Windows.Forms.Label startLbl;
     }
 }
 

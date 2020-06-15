@@ -17,7 +17,8 @@ namespace Graphics_Intro
         public int headX;
         public int headY;
         public int speed;
-        public int score = 0;
+        public float score = 0;
+        
 
         public List<int> coords_x = new List<int>();
         public List<int> coords_y = new List<int>();
@@ -34,7 +35,7 @@ namespace Graphics_Intro
 
             for (int i = 0; i < length; i++)
             {
-                coords_x.Add(headX - (5 * i));
+                coords_x.Add(headX - (width * i));
             }
             for (int i = 0; i< length; i++)
             {
@@ -44,10 +45,15 @@ namespace Graphics_Intro
         public bool death()
         {
             direction = null;
-            length = 5;
             score = 0;
             coords_x.Clear();
             coords_y.Clear();
+            Object.pos_x.Clear();
+            Object.pos_y.Clear();
+            Object.decay.Clear();
+            Object.spawnAll();
+            Display.play = false;
+            
             for (int i = 0; i < length; i++)
             {
                 coords_x.Add(headX - (5 * i));
@@ -58,22 +64,8 @@ namespace Graphics_Intro
             }
             return true;
         }
-        public bool move()
+        public int move()
         {
-            //see if user will touch itself
-            for(int i = 1; i < length; i++)
-            {
-                if(coords_x[0] == coords_x[i] && coords_y[0] == coords_y[i])
-                {
-                    death();
-                }
-            }
-
-            if(coords_x[0] >= Object.pos_x-Object.radius && coords_x[0] <= Object.pos_x+2*Object.radius && coords_y[0] >= Object.pos_y -Object.radius && coords_y[0] <= Object.pos_y + 2 * Object.radius)
-            {
-                return true;
-            }
-
             if (direction == "up")
             {
                 //precheck to see if the user will touch edge on next tick
@@ -84,7 +76,7 @@ namespace Graphics_Intro
                 else
                 {
                     //update coordinates
-                    for (int i = length - 1; i > 0; i--)
+                    for (int i = coords_x.Count - 1; i > 0; i--)
                     {
                         coords_y[i] = coords_y[i - 1];
                         coords_x[i] = coords_x[i - 1];
@@ -98,12 +90,12 @@ namespace Graphics_Intro
                 //precheck to see if the user will die on the next tick
                 if (coords_y[0] + 5 >= headY*2-10|| coords_x[0] >= headX * 2-10)
                 {
-                    death();
+                     death();
                 }
                 else
                 {
                     //update coordinates
-                    for (int i = length - 1; i > 0; i--)
+                    for (int i = coords_x.Count - 1; i > 0; i--)
                     {
                         coords_y[i] = coords_y[i - 1];
                         coords_x[i] = coords_x[i - 1];
@@ -122,7 +114,7 @@ namespace Graphics_Intro
                 else
                 {
                     //update coordinates
-                    for (int i = length - 1; i > 0; i--)
+                    for (int i = coords_x.Count - 1; i > 0; i--)
                     {
                         coords_y[i] = coords_y[i - 1];
                         coords_x[i] = coords_x[i - 1];
@@ -141,7 +133,7 @@ namespace Graphics_Intro
                 else
                 {
                     //update coordinates
-                    for (int i = length - 1; i > 0; i--)
+                    for (int i = coords_x.Count - 1; i > 0; i--)
                     {
                         coords_y[i] = coords_y[i - 1];
                         coords_x[i] = coords_x[i - 1];
@@ -150,54 +142,76 @@ namespace Graphics_Intro
                     coords_x[0] += speed;
                 }
             }
-            return false;
+            //see if user will touch itself
+            for (int i = 1; i < coords_x.Count - 1; i++)
+            {
+                if (coords_x[0] == coords_x[i] && coords_y[0] == coords_y[i])
+                {
+                    death();
+                }
+            }
+            for (int i = 0; i <= Object.pos_x.Count - 1; i++)
+            {
+                //check to see if any objects are hit
+                if (coords_x[0] >= Object.pos_x[i] - Object.radius && coords_x[0] <= Object.pos_x[i] + 2 * Object.radius && coords_y[0] >= Object.pos_y[i] - Object.radius && coords_y[0] <= Object.pos_y[i] + 2 * Object.radius)
+                {
+                    score++;
+                    return i;
+                }
+            }
+            //return a value that won't grow anything
+            return -1;
         }
-        public void grow()
+        public void grow(int number)
         {
             //adds a length to the snake depending on the direction it is moving
             //or takes length away if snake touches a bad object
             int grow = 0;
-            if (Object.decay < 100) 
+            if (Object.decay[number] < 100) 
             {
                 grow = 1;
                 score+=grow;
                 
                 if (direction == "up")
                 {
-                    coords_x.Add(coords_x[length - 1]);
-                    coords_y.Add(coords_y[length - 1] + width);
+                    coords_x.Add(coords_x[coords_x.Count - 1]);
+                    coords_y.Add(coords_y[coords_y.Count - 1] + width);
                 }
                 else if (direction == "down")
                 {
-                    coords_x.Add(coords_x[length - 1]);
-                    coords_y.Add(coords_y[length - 1] - width);
+                    coords_x.Add(coords_x[coords_x.Count - 1]);
+                    coords_y.Add(coords_y[coords_y.Count - 1] - width);
                 }
                 else if (direction == "left")
                 {
-                    coords_x.Add(coords_x[length - 1] + width);
-                    coords_y.Add(coords_y[length - 1]);
+                    coords_x.Add(coords_x[coords_x.Count - 1] + width);
+                    coords_y.Add(coords_y[coords_y.Count - 1]);
                 }
                 else if (direction == "right")
                 {
-                    coords_x.Add(coords_x[length - 1] - width);
-                    coords_y.Add(coords_y[length - 1]);
+                    coords_x.Add(coords_x[coords_x.Count - 1] - width);
+                    coords_y.Add(coords_y[coords_y.Count - 1]);
                 }
             }
-            else if (Object.decay < 200)
+            else if (Object.decay[number] < 200)
             {
-                grow = -1;
+                
+                grow = -5;
                 score += grow;
-                for (int i = 0; i == -grow; i++)
+                for(int i = 0; i < -grow; i++)
                 {
-                    coords_x.Remove(coords_x[length - i]);
-                    coords_y.Remove(coords_y[length - i]);
+                    coords_x.RemoveAt(coords_x.Count-1);
+                    coords_y.RemoveAt(coords_y.Count - 1);
+                    if (coords_x.Count <= 1)
+                    {
+                        death();
+                    }
                 }
-                if (length<= 0)
+                if (coords_x.Count <= 1)
                 {
                     death();
                 }
             }
-            length += grow;
         }
     }
 }
