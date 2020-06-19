@@ -44,6 +44,42 @@ namespace Graphics_Intro
         }
         public bool death()
         {
+            bool done = false;
+            //check for a highscore and reset game
+            if (Main_Menu.mode == "Classic (1 Object)")
+            {
+                for (int i = 9; done == false; i--)
+                {
+                    if(score/2 > Main_Menu.classicScores[i])
+                    {
+                        if (i == 9)
+                        {
+                            Main_Menu.classicScores[i] = (int)score/2;
+                        }
+                        else
+                        {
+                            Main_Menu.classicScores[i + 1] = Main_Menu.classicScores[i];
+                            Main_Menu.classicScores[i] = (int)score/2;
+                            if (i == 0)
+                            {
+                                done = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        done = true;
+                    }
+                }
+            }
+            else if (Main_Menu.mode == "Arcade (3 Objects)")
+            {
+
+            }
+            else 
+            {
+
+            }
             direction = null;
             score = 0;
             coords_x.Clear();

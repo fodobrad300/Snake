@@ -5,21 +5,25 @@ using System.ComponentModel.Design;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Schema;
 
 namespace Graphics_Intro
 {
     public partial class Display : Form
     {
+        
+        
+        
         Snake Snake = new Snake(null, 5, 5* (Main_Menu.resolution.Width / Main_Menu.defaultResolution.Width), Main_Menu.resolution.Width/2, Main_Menu.resolution.Height/2, 5);
         Object Object = new Object();
         int grow;
         public static bool play = false;
-        
        
         public Display()
         {
@@ -68,8 +72,6 @@ namespace Graphics_Intro
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            
-            
             //move snake and repaint
             for (int i = 0; i < Object.pos_x.Count; i++)
             {
@@ -93,7 +95,6 @@ namespace Graphics_Intro
 
         private void Display_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
             if (play)
             {
                 //D key
@@ -142,6 +143,20 @@ namespace Graphics_Intro
 
         private void Display_FormClosing(object sender, FormClosingEventArgs e)
         {
+            StreamWriter displayWriter = new StreamWriter("scores.txt");
+            foreach (int i in Main_Menu.classicScores)
+            {
+                displayWriter.WriteLine(Convert.ToString(i));
+            }
+            foreach (int i in Main_Menu.arcadeScores)
+            {
+                displayWriter.WriteLine(Convert.ToString(i));
+            }
+            foreach (int i in Main_Menu.chaoticScores)
+            {
+                displayWriter.WriteLine(Convert.ToString(i));
+            }
+            displayWriter.Close();
             Application.Exit();
         }
     }

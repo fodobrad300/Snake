@@ -32,7 +32,7 @@ namespace Graphics_Intro
         {
             if(Main_Menu.mode == "Chaotic (Loads of Objects)")
             {
-                for (int i = 0; i<=100; i++)
+                for (int i = 0; i<=300; i++)
                 {
                     pos_x.Add(0);
                     pos_y.Add(0);
